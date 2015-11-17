@@ -1,0 +1,43 @@
+<!-- INCLUDE simple_header.html -->
+<!-- IF .postrow -->
+<form method="post" id="results" action="form=postform&amp;field=message&amp;select_single=1&amp;mode=searchuser" onsubmit="insert_marked_users('#results', this.user); return false;" data-form-name="{S_POST_FORM}" data-field-name="message">
+	<div class="panel">
+		<div class="inner">
+			<ul class="topiclist cplist">
+			<!-- BEGIN postrow -->
+				<li class="row<!-- IF postrow.S_POST_REPORTED --> reported<!-- ELSEIF postrow.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+					<!-- IF postrow.S_DELETED_TOPIC -->
+						<dl>
+							<dt><strong>{L_DELETED_POST_TOPIC}</strong></dt>
+						</dl>
+					<!-- ELSE -->
+					<dl>
+						<dt>
+							<a href="{postrow.U_VIEW_POST}" class="topictitle">{postrow.POST_TITLE}</a><br />
+							{L_POST_BY_AUTHOR} {postrow.TOPIC_AUTHOR} &raquo; {postrow.POST_TIME}
+						</dt>
+						<dd class="lastpost"><span><dfn>{L_LAST_POST} </dfn> {postrow.BOOKMARK_DESC}
+							<br />{L_ADDED}&raquo; {postrow.BOOKMARK_TIME}</span>
+						</dd>
+						<dd>[&nbsp;<a href="#" onclick="insert_single_user('#results', '{postrow.U_POST_BOOKMARK}'); return false;">{L_SELECT}</a>&nbsp;]</dd>
+					</dl>
+					<!-- ENDIF -->
+				</li>
+			<!-- END postrow -->
+			</ul>
+		</div>
+	</div>
+	<div class="pagination">
+		{TOTAL_BOOKMARKS}
+		<!-- IF .pagination -->
+			<!-- INCLUDE pagination.html -->
+		<!-- ELSE -->
+			 &bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+	<br clear="all" />
+</form>
+<!-- ELSE -->
+<p><strong>{L_NO_POST_BOOKMARKS}</strong></p>
+<!-- ENDIF -->
+<!-- INCLUDE simple_footer.html -->

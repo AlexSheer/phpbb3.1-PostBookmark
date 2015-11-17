@@ -1,0 +1,3 @@
+sheer_postbookmark_controller:
+    pattern: /postbookmark
+    defaults: { _controller: sheer.postbookmark.controller:main }

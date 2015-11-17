@@ -1,0 +1,8 @@
+.postbookmark-icon:before						{ background-position: 0px 0px; }
+.postbookmark-icon:hover:before					{ background-position: 0px -20px; }
+.postbookmark-icon-delete:before {
+	background-image: linear-gradient(to bottom, #FFFFFF, #D40000);
+}
+.postbookmark-icon-delete:hover:before {
+	background-image: linear-gradient(to bottom, #D40000, #FFFFFF);
+}
