@@ -2,13 +2,18 @@
     "name": "sheer/postbookmark",
     "type": "phpbb-extension",
     "homepage": "http://www.phpbbguru.net/",
-    "version": "1.0.0",
-    "time": "2015-09-17",
+    "version": "1.0.1",
+    "time": "2015-11-23",
     "license": "GPL-2.0",
     "authors": [
         {
             "name": "Sheer",
             "homepage": "http://www.phpbbguru.net/",
+            "role": "Developer"
+        },
+        {
+            "name": "Igor Lavrov",
+            "homepage": "https://github.com/lavigor",
             "role": "Developer"
         }
     ],

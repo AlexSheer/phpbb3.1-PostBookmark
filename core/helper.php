@@ -76,10 +76,8 @@ class helper
 	public function get_bookmarks()
 	{
 		define ('POSTS_BOOKMARKS_TABLE', $this->table_prefix.'posts_bookmarks');
-
 		$start = $this->request->variable('start', 0);
-
-		$sql =  'SELECT COUNT(post_id) as posts_count
+		$sql = 'SELECT COUNT(post_id) as posts_count
 			FROM ' . POSTS_BOOKMARKS_TABLE . '
 			WHERE user_id = ' . $this->user->data['user_id'];
 

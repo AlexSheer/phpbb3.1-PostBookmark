@@ -53,7 +53,6 @@ class postbookmark
 		$post_id = $this->request->variable('p', 0);
 		$forum_id = $this->request->variable('f', 0);
 		$mode = $this->request->variable('mode', '');
-		$post_form = $this->request->variable('form', '');
 
 		$book_submit = request_var('book', false);
 		$book_cancel = request_var('reset', false);
@@ -96,7 +95,6 @@ class postbookmark
 
 		$this->template->assign_vars(array(
 			'U_POST_ACTION'			=> append_sid("{$this->phpbb_root_path}postbookmark", "f=$forum_id&amp;t=$topic_id&amp;p=$post_id&amp;mode=$mode"),
-			'S_POST_FORM'			=> $post_form,
 			)
 		);
 

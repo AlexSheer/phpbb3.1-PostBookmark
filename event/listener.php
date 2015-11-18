@@ -1,57 +1,60 @@
 <?php
 /**
-*
-* @package phpBB Extension - Post Bookmarks
-* @copyright (c) 2015 Sheer
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package		phpBB Extension - Post Bookmarks
+ * @copyright	(c) 2015 Sheer
+ * @license		http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 namespace sheer\postbookmark\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
-* Event listener
-*/
+ * Event listener
+ */
 class listener implements EventSubscriberInterface
 {
-/**
-* Assign functions defined in this class to event listeners in the core
-*
-* @return array
-* @static
-* @access public
-*/
+	/**
+	 * Assign functions defined in this class to event listeners in the core
+	 *
+	 * @return array
+	 * @static
+	 * @access public
+	 */
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'									=> 'load_language_on_setup',
-			'core.viewtopic_assign_template_vars_before'		=> 'get_topic_data',
-			'core.viewtopic_modify_post_row'					=> 'modify_post_row',
+			'core.user_setup'								=> 'load_language_on_setup',
+			'core.viewtopic_assign_template_vars_before'	=> 'get_topic_data',
+			'core.viewtopic_modify_post_row'				=> 'modify_post_row',
 		);
 	}
 
-	/** @var \phpbb	emplate	emplate */
+	/** @var \phpbb\template\template */
 	protected $template;
 
-	//** @var string phpbb_root_path */
+	/** @var string phpbb_root_path */
 	protected $phpbb_root_path;
 
-	//** @var string php_ext */
+	/** @var string php_ext */
 	protected $php_ext;
 
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\user\user */
+	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\extension\manager */
+	protected $phpbb_extension_manager;
+
 	/**
-	* Constructor
-	*/
+	 * Constructor
+	 */
 	public function __construct(
 		$phpbb_root_path,
 		$php_ext,
@@ -59,8 +62,9 @@ class listener implements EventSubscriberInterface
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\user $user,
 		\phpbb\config\config $config,
+		$phpbb_extension_manager,
 		$post_bookmark
-		)
+	)
 	{
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
@@ -68,6 +72,7 @@ class listener implements EventSubscriberInterface
 		$this->db = $db;
 		$this->user = $user;
 		$this->config = $config;
+		$this->phpbb_extension_manager = $phpbb_extension_manager;
 		$this->postbookmark_table = $post_bookmark;
 	}
 
@@ -83,7 +88,7 @@ class listener implements EventSubscriberInterface
 
 	public function get_topic_data($event)
 	{
-		if($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
+		if ($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
 		{
 			$topic_data = $event['topic_data'];
 			$posts_bookmark = array();
@@ -92,22 +97,25 @@ class listener implements EventSubscriberInterface
 				WHERE user_id = ' . $this->user->data['user_id'] . '
 					AND topic_id = ' . $topic_data['topic_id'];
 			$result = $this->db->sql_query($sql);
-			while($row = $this->db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$posts_bookmark[] = $row['post_id'];
 			}
 			$this->db->sql_freeresult($result);
-			if(!empty($posts_bookmark))
+			if (!empty($posts_bookmark))
 			{
 				$topic_data = array_merge($event['topic_data'], array('posts_bookmarks' => $posts_bookmark));
 				$event['topic_data'] = $topic_data;
 			}
+			$this->template->assign_vars(array(
+				'S_QUICK_REPLY_EXT'	=> $this->phpbb_extension_manager->is_enabled('boardtools/quickreply') || $this->phpbb_extension_manager->is_enabled('tatiana5/quickreply'),
+			));
 		}
 	}
 
 	public function modify_post_row($event)
 	{
-		if($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
+		if ($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
 		{
 			$row = $event['row'];
 			$post_row = $event['post_row'];

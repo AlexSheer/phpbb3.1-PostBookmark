@@ -1,43 +1,71 @@
-<!-- INCLUDE simple_header.html -->
 <!-- IF .postrow -->
-<form method="post" id="results" action="form=postform&amp;field=message&amp;select_single=1&amp;mode=searchuser" onsubmit="insert_marked_users('#results', this.user); return false;" data-form-name="{S_POST_FORM}" data-field-name="message">
-	<div class="panel">
-		<div class="inner">
-			<ul class="topiclist cplist">
-			<!-- BEGIN postrow -->
-				<li class="row<!-- IF postrow.S_POST_REPORTED --> reported<!-- ELSEIF postrow.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
-					<!-- IF postrow.S_DELETED_TOPIC -->
-						<dl>
-							<dt><strong>{L_DELETED_POST_TOPIC}</strong></dt>
-						</dl>
-					<!-- ELSE -->
+<div class="panel scrool">
+	<div class="inner">
+		<ul class="topiclist cplist">
+		<!-- BEGIN postrow -->
+			<li class="row<!-- IF postrow.S_POST_REPORTED --> reported<!-- ELSEIF postrow.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+				<!-- IF postrow.S_DELETED_TOPIC -->
 					<dl>
-						<dt>
-							<a href="{postrow.U_VIEW_POST}" class="topictitle">{postrow.POST_TITLE}</a><br />
-							{L_POST_BY_AUTHOR} {postrow.TOPIC_AUTHOR} &raquo; {postrow.POST_TIME}
-						</dt>
-						<dd class="lastpost"><span><dfn>{L_LAST_POST} </dfn> {postrow.BOOKMARK_DESC}
-							<br />{L_ADDED}&raquo; {postrow.BOOKMARK_TIME}</span>
-						</dd>
-						<dd>[&nbsp;<a href="#" onclick="insert_single_user('#results', '{postrow.U_POST_BOOKMARK}'); return false;">{L_SELECT}</a>&nbsp;]</dd>
+						<dt><strong>{L_DELETED_POST_TOPIC}</strong></dt>
 					</dl>
-					<!-- ENDIF -->
-				</li>
-			<!-- END postrow -->
-			</ul>
-		</div>
+				<!-- ELSE -->
+				<dl>
+					<dt>
+						<a href="{postrow.U_VIEW_POST}" class="topictitle">{postrow.POST_TITLE}</a><br />
+						{L_POST_BY_AUTHOR} {postrow.TOPIC_AUTHOR} &raquo; {postrow.POST_TIME}
+					</dt>
+					<dd class="lastpost" style="float: right !important;">
+						<span><dfn>{L_LAST_POST} </dfn> {postrow.BOOKMARK_DESC}</span>
+					</dd>
+					<dd style="display: block; float: right; padding: 5px;">[&nbsp;<a href="#" onclick="insert_text('{postrow.U_POST_BOOKMARK}', true); postbookmark.closeModal(); return false;">{L_SELECT}</a>&nbsp;]</dd>
+				</dl>
+				<!-- ENDIF -->
+			</li>
+		<!-- END postrow -->
+		</ul>
 	</div>
-	<div class="pagination">
-		{TOTAL_BOOKMARKS}
-		<!-- IF .pagination -->
-			<!-- INCLUDE pagination.html -->
+</div>
+
+<!-- IF .pagination or TOTAL_BOOKMARKS -->
+<div class="pagination">
+	{TOTAL_BOOKMARKS}
+	<!-- IF .pagination -->
+	<ul>
+	<!-- IF BASE_URL and TOTAL_PAGES > 6 -->
+		<li class="dropdown-container dropdown-button-control dropdown-page-jump page-jump">
+			<a href="#" class="dropdown-trigger" title="{L_JUMP_TO_PAGE_CLICK}" role="button">{PAGE_NUMBER}</a>
+			<div class="dropdown hidden">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents">
+					<li>{L_JUMP_TO_PAGE}{L_COLON}</li>
+					<li class="page-jump-form">
+						<input type="number" name="page-number" min="1" maxlength="6" title="{L_JUMP_PAGE}" class="inputbox tiny" data-per-page="{PER_PAGE}" data-base-url="{BASE_URL|e('html_attr')}" data-start-name="{START_NAME}" />
+						<input class="button2" value="{L_GO}" type="button" />
+					</li>
+				</ul>
+			</div>
+		</li>
+	<!-- ENDIF -->
+	<!-- BEGIN pagination -->
+		<!-- IF pagination.S_IS_PREV -->
+		<li class="previous"><a href="#" data-page-url="{pagination.PAGE_URL}" rel="prev" role="button">{L_PREVIOUS}</a></li>
+		<!-- ELSEIF pagination.S_IS_CURRENT -->
+		<li class="active"><span>{pagination.PAGE_NUMBER}</span></li>
+		<!-- ELSEIF pagination.S_IS_ELLIPSIS -->
+		<li class="ellipsis" role="separator"><span>{L_ELLIPSIS}</span></li>
+		<!-- ELSEIF pagination.S_IS_NEXT -->
+		<li class="next"><a href="#" data-page-url="{pagination.PAGE_URL}" rel="next" role="button">{L_NEXT}</a></li>
 		<!-- ELSE -->
-			 &bull; {PAGE_NUMBER}
+		<li><a href="#" data-page-url="{pagination.PAGE_URL}" role="button">{pagination.PAGE_NUMBER}</a></li>
 		<!-- ENDIF -->
-	</div>
-	<br clear="all" />
-</form>
+	<!-- END pagination -->
+	</ul>
+	<!-- ELSE -->
+		 &bull; {PAGE_NUMBER}
+	<!-- ENDIF -->
+</div>
+<br clear="all" />
+<!-- ENDIF -->
 <!-- ELSE -->
 <p><strong>{L_NO_POST_BOOKMARKS}</strong></p>
 <!-- ENDIF -->
-<!-- INCLUDE simple_footer.html -->

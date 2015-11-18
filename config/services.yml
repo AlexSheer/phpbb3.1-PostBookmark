@@ -21,6 +21,7 @@ services:
             - @dbal.conn
             - @user
             - @config
+            - @ext.manager
             - %tables.postbookmark%
         tags:
             - { name: event.listener }
