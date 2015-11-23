@@ -1,0 +1,8 @@
+.bookmark-icon:before {
+	content: '\f046';
+	color: #909090;
+}
+.bookmark-icon-delete:before {
+	content: '\f14a';
+	color: #C0463D;
+}
