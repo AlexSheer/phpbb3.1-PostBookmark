@@ -30,13 +30,57 @@
 		});
 	}
 
+	function loadBookmarkAction(url, resultFunction) {
+		phpbb.loadingIndicator();
+		$.ajax({
+			url: url,
+			method: 'POST',
+			error: function(e, text, ee) {
+				/* No handling currently =( */
+			},
+			success: function(res, x) {
+				if (res.title && res.message) {
+					phpbb.alert(res.title, res.message);
+				}
+				if (typeof resultFunction === "function") {
+					resultFunction();
+				}
+			},
+			cache: false
+		});
+	}
+
 	$(".postbookmark_trigger").click(function() {
 		var $this = $(this);
 		loadBookmarksPage($this.attr("data-url"), $this.val());
 	});
+
 	postbookmark.closeModal = function() {
 		phpbb.alert.close(postbookmark.modal, true);
 	};
+
+	$(".postbookmark-icon, .postbookmark-icon-delete").click(function() {
+		var $this = $(this);
+		if ($this.hasClass("postbookmark-icon-delete")) {
+			$this.each(phpbb.toggleDropdown);
+			loadBookmarkAction($this.attr("data-bookmark-url") + '&mode=delete', function() {
+				var bookmarkText = $this.attr("data-bookmark-text");
+				$this.toggleClass("postbookmark-icon postbookmark-icon-delete").attr("title", bookmarkText);
+				$this.children("span").html(bookmarkText);
+			});
+		}
+	});
+
+	$("#bookmark_form").submit(function(e) {
+		var $this = $(this), $trigger = $this.closest(".dropdown-container").find(".dropdown-trigger");
+		e.preventDefault();
+		$trigger.each(phpbb.toggleDropdown);
+		loadBookmarkAction($trigger.attr("data-bookmark-url") + '&mode=insert&book=1&' + $("#bookmark_desc").serialize(), function() {
+			var bookmarkText = $trigger.attr("data-bookmark-remove-text");
+			$trigger.toggleClass("postbookmark-icon postbookmark-icon-delete").attr("title", bookmarkText);
+			$trigger.children("span").html(bookmarkText);
+		});
+	});
 
 	function handlePageJump(container, title) {
 		container.find('.pagination .page-jump-form :button').click(function() {

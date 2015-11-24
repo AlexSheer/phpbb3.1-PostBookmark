@@ -120,4 +120,28 @@ class helper
 			'PAGE_NUMBER'		=> $this->pagination->on_page($posts_count, $this->config['topics_per_page'], $start),
 		));
 	}
+
+	/**
+	 * Outputs correct response: standard/JSON
+	 *
+	 * @param string $message     Status message
+	 * @param string $return_link Standard only
+	 * @param string $url         Standard only
+	 */
+	public function output_response($message, $return_link, $url)
+	{
+		if ($this->request->is_ajax())
+		{
+			$json_response = new \phpbb\json_response();
+			$json_response->send(array(
+				'title'		=> $this->user->lang("INFORMATION"),
+				'message'	=> $message,
+			));
+		}
+		else
+		{
+			meta_refresh(3, $url);
+			trigger_error($message . $return_link);
+		}
+	}
 }
