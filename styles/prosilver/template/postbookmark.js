@@ -59,28 +59,35 @@
 		phpbb.alert.close(postbookmark.modal, true);
 	};
 
-	$(".postbookmark-icon, .postbookmark-icon-delete").click(function() {
-		var $this = $(this);
-		if ($this.hasClass("postbookmark-icon-delete")) {
-			$this.each(phpbb.toggleDropdown);
-			loadBookmarkAction($this.attr("data-bookmark-url") + '&mode=delete', function() {
-				var bookmarkText = $this.attr("data-bookmark-text");
-				$this.toggleClass("postbookmark-icon postbookmark-icon-delete").attr("title", bookmarkText);
-				$this.children("span").html(bookmarkText);
-			});
-		}
-	});
-
-	$("#bookmark_form").submit(function(e) {
-		var $this = $(this), $trigger = $this.closest(".dropdown-container").find(".dropdown-trigger");
-		e.preventDefault();
-		$trigger.each(phpbb.toggleDropdown);
-		loadBookmarkAction($trigger.attr("data-bookmark-url") + '&mode=insert&book=1&' + $("#bookmark_desc").serialize(), function() {
-			var bookmarkText = $trigger.attr("data-bookmark-remove-text");
-			$trigger.toggleClass("postbookmark-icon postbookmark-icon-delete").attr("title", bookmarkText);
-			$trigger.children("span").html(bookmarkText);
+	function handleBookmarkButtons(e, elements) {
+		elements.find(".postbookmark-icon, .postbookmark-icon-delete").click(function() {
+			var $this = $(this);
+			if ($this.hasClass("postbookmark-icon-delete")) {
+				$this.each(phpbb.toggleDropdown);
+				loadBookmarkAction($this.attr("data-bookmark-url") + '&mode=delete', function() {
+					var bookmarkText = $this.attr("data-bookmark-text");
+					$this.toggleClass("postbookmark-icon postbookmark-icon-delete").attr("title", bookmarkText);
+					$this.children("span").html(bookmarkText);
+				});
+			}
 		});
+
+		elements.find(".bookmark_form").submit(function(e) {
+			var $this = $(this), $trigger = $this.closest(".dropdown-container").find(".dropdown-trigger");
+			e.preventDefault();
+			$trigger.each(phpbb.toggleDropdown);
+			loadBookmarkAction($trigger.attr("data-bookmark-url") + '&mode=insert&book=1&' + $this.find(".bookmark_desc").serialize(), function() {
+				var bookmarkText = $trigger.attr("data-bookmark-remove-text");
+				$trigger.toggleClass("postbookmark-icon postbookmark-icon-delete").attr("title", bookmarkText);
+				$trigger.children("span").html(bookmarkText);
+			});
+		});
+	}
+
+	$(document).ready(function (e) {
+		handleBookmarkButtons(e, $(document));
 	});
+	$('#qr_posts').on('qr_loaded', handleBookmarkButtons);
 
 	function handlePageJump(container, title) {
 		container.find('.pagination .page-jump-form :button').click(function() {
