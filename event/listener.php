@@ -52,6 +52,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\extension\manager */
 	protected $phpbb_extension_manager;
 
+	/** @var string bookmarks_table */
+	protected $postbookmark_table;
+
 	/**
 	 * Constructor
 	 */
@@ -129,6 +132,7 @@ class listener implements EventSubscriberInterface
 			$post_row['L_BOOKMARK_POST'] = (in_array($row['post_id'], $posts_bookmark)) ? $this->user->lang['BOOKMARK_TOPIC_REMOVE'] : $this->user->lang['BOOKMARK_TOPIC'];
 			$post_row['BOOKMARK_DELETE'] = (in_array($row['post_id'], $posts_bookmark)) ? '-delete' : '';
 			$post_row['U_BOOKMARK_POST'] = append_sid("{$this->phpbb_root_path}postbookmark", "f=$forum_id&amp;t=$topic_id&amp;p=$post_id&amp;mode=$mode");
+			$post_row['U_BOOKMARK_LINK'] = append_sid("{$this->phpbb_root_path}postbookmark", "f=$forum_id&amp;t=$topic_id&amp;p=$post_id");
 
 			$event['post_row'] = $post_row;
 		}

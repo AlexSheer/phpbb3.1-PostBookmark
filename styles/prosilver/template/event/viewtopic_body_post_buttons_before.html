@@ -1,5 +1,17 @@
 <!-- IF S_REGISTERED_USER and not S_IS_BOT -->
-						<li>
-							<a href="{postrow.U_BOOKMARK_POST}" title="{postrow.L_BOOKMARK_POST}" class="button icon-button postbookmark-icon{postrow.BOOKMARK_DELETE}"><span>{postrow.L_BOOKMARK_POST}</span></a>
+						<li class="dropdown-container">
+							<a href="{postrow.U_BOOKMARK_POST}" title="{postrow.L_BOOKMARK_POST}" class="button dropdown-trigger icon-button postbookmark-icon{postrow.BOOKMARK_DELETE}" data-bookmark-url="{postrow.U_BOOKMARK_LINK}" data-bookmark-text="{L_BOOKMARK_TOPIC}" data-bookmark-remove-text="{L_BOOKMARK_TOPIC_REMOVE}"><span>{postrow.L_BOOKMARK_POST}</span></a>
+							<div class="dropdown hidden">
+								<div class="pointer"><div class="pointer-inner"></div></div>
+								<ul class="dropdown-contents">
+									<li><label for="bookmark_desc">{L_BOOKMARK_EXPLAIN}</label></li>
+									<li class="page-jump-form">
+										<form class="bookmark_form">
+										<input name="bookmark_desc" value="" class="inputbox bookmark_desc" type="text" maxlength="40">
+										<input class="button2" value="{L_SUBMIT}" type="submit" />
+										</form>
+									</li>
+								</ul>
+							</div>
 						</li>
 <!-- ENDIF -->
