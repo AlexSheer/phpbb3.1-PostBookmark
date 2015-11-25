@@ -27,7 +27,7 @@ class postbookmark_module
 		$forbidden_forums = array_unique(array_keys($forbidden_forums));
 
 		$controller = $phpbb_container->get('sheer.postbookmark.helper');
-		$controller->get_bookmarks($forbidden_forums);
+		$controller->get_bookmarks(false, $forbidden_forums);
 
 		if (isset($_POST['unbookmark']))
 		{
