@@ -12,11 +12,8 @@
 				<dl>
 					<dt>
 						<a href="{postrow.U_VIEW_POST}" target="_blank" class="topictitle">{postrow.POST_TITLE}</a><br />
-						{L_POST_BY_AUTHOR} {postrow.TOPIC_AUTHOR} &raquo; {postrow.POST_TIME}
+						{postrow.BOOKMARK_DESC}
 					</dt>
-					<dd class="lastpost" style="float: right !important;">
-						<span><dfn>{L_LAST_POST} </dfn> {postrow.BOOKMARK_DESC}</span>
-					</dd>
 					<dd style="display: block; float: right; padding: 5px;">[&nbsp;<a href="#" onclick="insert_text('{postrow.U_POST_BOOKMARK}', true); postbookmark.closeModal(); return false;">{L_SELECT}</a>&nbsp;]</dd>
 				</dl>
 				<!-- ENDIF -->
