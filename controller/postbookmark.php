@@ -84,7 +84,7 @@ class postbookmark
 		else if ($mode == 'find')
 		{
 			$body = 'find_bookmark';
-			$this->helper->get_bookmarks();
+			$this->helper->get_bookmarks($mode);
 		}
 		else
 		{
@@ -96,11 +96,11 @@ class postbookmark
 			if ($book_submit)
 			{
 				$sql = 'INSERT INTO ' . $this->postbookmark_table . ' ' . $this->db->sql_build_array('INSERT', array(
-						'user_id'       => $this->user->data['user_id'],
-						'post_id'       => $post_id,
-						'topic_id'      => $topic_id,
-						'bookmark_time' => time(),
-						'bookmark_desc' => $bookmark_desc,
+						'user_id'		=> $this->user->data['user_id'],
+						'post_id'		=> $post_id,
+						'topic_id'		=> $topic_id,
+						'bookmark_time'	=> time(),
+						'bookmark_desc'	=> $bookmark_desc,
 					));
 				$this->db->sql_query($sql);
 				$message = $this->user->lang['POST_BOOKMARK_ADDED'];
