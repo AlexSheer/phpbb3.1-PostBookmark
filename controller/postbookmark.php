@@ -66,9 +66,7 @@ class postbookmark
 		$mode = $this->request->variable('mode', '');
 
 		$book_submit = $this->request->variable('book', false);
-		$book_cancel = $this->request->variable('reset', false);
 
-		$viewtopic_url = append_sid("{$this->phpbb_root_path}viewtopic." . $this->php_ext . "", "f=$forum_id&amp;t=$topic_id");
 		$body = 'add_bookmark';
 
 		if ($mode == 'delete')
@@ -78,7 +76,6 @@ class postbookmark
 					AND post_id = $post_id";
 			$this->db->sql_query($sql);
 			$message = $this->user->lang['POST_BOOKMARK_REMOVED'];
-			$return_link = '<br /><br />' . sprintf($this->user->lang['RETURN_TOPIC'], '<a href="' . $viewtopic_url . '">', '</a>');
 			$this->helper->output_response($message, $return_link, $viewtopic_url);
 		}
 		else if ($mode == 'find')
@@ -89,10 +86,6 @@ class postbookmark
 		else
 		{
 			$bookmark_desc = $this->request->variable('bookmark_desc', '', true);
-			if ($book_cancel)
-			{
-				redirect($viewtopic_url);
-			}
 			if ($book_submit)
 			{
 				$sql = 'INSERT INTO ' . $this->postbookmark_table . ' ' . $this->db->sql_build_array('INSERT', array(
@@ -104,7 +97,6 @@ class postbookmark
 					));
 				$this->db->sql_query($sql);
 				$message = $this->user->lang['POST_BOOKMARK_ADDED'];
-				$return_link = '<br /><br />' . sprintf($this->user->lang['RETURN_TOPIC'], '<a href="' . $viewtopic_url . '">', '</a>');
 				$this->helper->output_response($message, $return_link, $viewtopic_url);
 			}
 		}
