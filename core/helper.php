@@ -73,7 +73,7 @@ class helper
 		$this->table_prefix = $table_prefix;
 	}
 
-	public function get_bookmarks()
+	public function get_bookmarks($ext_mode = '', $forums = array())
 	{
 		define ('POSTS_BOOKMARKS_TABLE', $this->table_prefix.'posts_bookmarks');
 		$start = $this->request->variable('start', 0);
@@ -85,27 +85,35 @@ class helper
 		$posts_count = (int) $this->db->sql_fetchfield('posts_count');
 		$this->db->sql_freeresult($result);
 
+		$sql_where = $sql_fields = '';
+		if($ext_mode != 'find')
+		{
+			$sql_where = 'LEFT JOIN ' . USERS_TABLE . ' u ON (p.poster_id = u.user_id)';
+			$sql_fields = ', p.post_time, u.user_id, u.username, u.user_colour';
+		}
+
 		$pagination_url = append_sid("{$this->phpbb_root_path}postbookmark", "mode=find");
 		$this->pagination->generate_template_pagination($pagination_url, 'pagination', 'start', $posts_count, $this->config['topics_per_page'], $start);
 
-		$sql = 'SELECT b.post_id AS b_post_id, b.user_id, b.bookmark_time, b.bookmark_desc, p.post_id, p.forum_id, p.topic_id, p.poster_id, p.post_subject, p.post_time, u.user_id, u.username, u.user_colour
+		$sql = 'SELECT b.post_id AS b_post_id, b.user_id, b.bookmark_time, b.bookmark_desc, p.post_id, p.forum_id, p.topic_id, p.poster_id, p.post_subject ' . $sql_fields . '
 			FROM ' . POSTS_BOOKMARKS_TABLE . ' b
 			LEFT JOIN ' . POSTS_TABLE . ' p ON( b.post_id = p.post_id)
-			LEFT JOIN ' . USERS_TABLE . ' u ON (p.poster_id = u.user_id)
+			' . $sql_where . '
 			WHERE b.user_id = ' . $this->user->data['user_id'] . '
 			ORDER BY b.bookmark_time ASC';
 		$result = $this->db->sql_query_limit($sql, $this->config['topics_per_page'], $start);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
+			$topic_author = ($sql_where) ? get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']) : '';
+			$post_time = ($sql_where) ? $this->user->format_date($row['post_time']) : '';
 			// Send vars to template
 			$this->template->assign_block_vars('postrow', array(
 				'POST_ID'			=> $row['b_post_id'],
-				'POST_TIME'			=> $this->user->format_date($row['post_time']),
+				'POST_TIME'			=> $post_time,
 				'BOOKMARK_TIME'		=> $this->user->format_date($row['bookmark_time']),
 				'BOOKMARK_DESC'		=> $row['bookmark_desc'],
-				'LAST_POST_SUBJECT'	=> $row['post_subject'],
-				'TOPIC_AUTHOR'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']),
+				'TOPIC_AUTHOR'		=> $topic_author,
 				'POST_TITLE'		=> $row['post_subject'],
 				'U_VIEW_POST'		=> append_sid("{$this->phpbb_root_path}viewtopic.$this->php_ext", "p=" . $row['post_id'] . "#p" . $row['post_id'] . ""),
 				'S_DELETED_TOPIC'	=> (!$row['topic_id']) ? true : false,
