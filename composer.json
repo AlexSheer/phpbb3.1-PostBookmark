@@ -1,6 +1,7 @@
 {
     "name": "sheer/postbookmark",
     "type": "phpbb-extension",
+    "description": "",
     "homepage": "http://www.phpbbguru.net/",
     "version": "1.0.1",
     "time": "2015-11-23",
