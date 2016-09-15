@@ -67,6 +67,8 @@ class postbookmark
 
 		$book_submit = $this->request->variable('book', false);
 
+		$viewtopic_url = append_sid("{$this->phpbb_root_path}viewtopic." . $this->php_ext . "", "f=$forum_id&amp;t=$topic_id");
+		$return_link = '<br /><br />' . sprintf($this->user->lang['RETURN_TOPIC'], '<a href="' . $viewtopic_url . '">', '</a>');
 		$body = 'add_bookmark';
 
 		if ($mode == 'delete')
