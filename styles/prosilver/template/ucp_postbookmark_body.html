@@ -34,8 +34,10 @@
 			<!-- ELSE -->
 			<dl>
 				<dt>
-					<a href="{postrow.U_VIEW_POST}" class="topictitle">{postrow.POST_TITLE}</a><br />
-					{L_POST_BY_AUTHOR} {postrow.TOPIC_AUTHOR} &raquo; {postrow.POST_TIME}
+					<div class="list-inner with-mark">
+						<a href="{postrow.U_VIEW_POST}" class="topictitle">{postrow.POST_TITLE}</a><br />
+						{L_POST_BY_AUTHOR} {postrow.TOPIC_AUTHOR} &raquo; {postrow.POST_TIME}
+					</div>
 				</dt>
 				<dd class="lastpost"><span><dfn>{L_LAST_POST} </dfn> {postrow.BOOKMARK_DESC}
 					<br />{L_ADDED}&raquo; {postrow.BOOKMARK_TIME}</span>
