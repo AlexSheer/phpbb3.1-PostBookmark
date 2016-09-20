@@ -95,9 +95,10 @@ class helper
 		$pagination_url = append_sid("{$this->phpbb_root_path}postbookmark", "mode=find");
 		$this->pagination->generate_template_pagination($pagination_url, 'pagination', 'start', $posts_count, $this->config['topics_per_page'], $start);
 
-		$sql = 'SELECT b.post_id AS b_post_id, b.user_id, b.bookmark_time, b.bookmark_desc, p.post_id, p.forum_id, p.topic_id, p.poster_id, p.post_subject ' . $sql_fields . '
+		$sql = 'SELECT b.post_id AS b_post_id, b.user_id, b.bookmark_time, b.bookmark_desc, p.post_id, p.forum_id, p.topic_id, p.poster_id, p.post_subject, t.topic_title ' . $sql_fields . '
 			FROM ' . POSTS_BOOKMARKS_TABLE . ' b
 			LEFT JOIN ' . POSTS_TABLE . ' p ON( b.post_id = p.post_id)
+			LEFT JOIN ' . TOPICS_TABLE . ' t ON( t.topic_id = p.topic_id)
 			' . $sql_where . '
 			WHERE b.user_id = ' . $this->user->data['user_id'] . '
 			ORDER BY b.bookmark_time ASC';
@@ -114,11 +115,11 @@ class helper
 				'BOOKMARK_TIME'		=> $this->user->format_date($row['bookmark_time']),
 				'BOOKMARK_DESC'		=> $row['bookmark_desc'],
 				'TOPIC_AUTHOR'		=> $topic_author,
-				'POST_TITLE'		=> $row['post_subject'],
+				'POST_TITLE'		=> ($row['post_subject']) ? $row['post_subject'] : $row['topic_title'],
 				'U_VIEW_POST'		=> append_sid("{$this->phpbb_root_path}viewtopic.$this->php_ext", "p=" . $row['post_id'] . "#p" . $row['post_id'] . ""),
 				'S_DELETED_TOPIC'	=> (!$row['topic_id']) ? true : false,
 				'S_DELETED_POST'	=> (!$row['post_id']) ? true : false,
-				'U_POST_BOOKMARK'	=> '[url='. generate_board_url() .'/viewtopic.'. $this->php_ext .'?p=' . $row['post_id'] . '#p' . $row['post_id'] . ']' . $row['post_subject'] . '[/url]',
+				'U_POST_BOOKMARK'	=> '[url='. generate_board_url() .'/viewtopic.'. $this->php_ext .'?p=' . $row['post_id'] . '#p' . $row['post_id'] . ']' . ($row['post_subject']) ? $row['post_subject'] : $row['topic_title'] . '[/url]',
 			));
 		}
 		$this->db->sql_freeresult($result);
