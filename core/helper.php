@@ -119,7 +119,7 @@ class helper
 				'U_VIEW_POST'		=> append_sid("{$this->phpbb_root_path}viewtopic.$this->php_ext", "p=" . $row['post_id'] . "#p" . $row['post_id'] . ""),
 				'S_DELETED_TOPIC'	=> (!$row['topic_id']) ? true : false,
 				'S_DELETED_POST'	=> (!$row['post_id']) ? true : false,
-				'U_POST_BOOKMARK'	=> '[url='. generate_board_url() .'/viewtopic.'. $this->php_ext .'?p=' . $row['post_id'] . '#p' . $row['post_id'] . ']' . ($row['post_subject']) ? $row['post_subject'] : $row['topic_title'] . '[/url]',
+				'U_POST_BOOKMARK'	=> '[url='. generate_board_url() .'/viewtopic.'. $this->php_ext .'?p=' . $row['post_id'] . '#p' . $row['post_id'] . ']' . (($row['post_subject']) ? $row['post_subject'] : $row['topic_title']) . '[/url]',
 			));
 		}
 		$this->db->sql_freeresult($result);
