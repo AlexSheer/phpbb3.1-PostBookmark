@@ -1,10 +1,11 @@
-.postbookmark-icon:before						{ background-position: 0px 0px; }
-.postbookmark-icon:hover:before					{ background-position: 0px -20px; }
-.postbookmark-icon-delete:before {
-	background-image: linear-gradient(to bottom, #FFFFFF, #D40000);
+.postbookmark-icon {}
+
+.postbookmark-icon-delete {
+	color: #D31141 !important;
 }
-.postbookmark-icon-delete:hover:before {
-	background-image: linear-gradient(to bottom, #D40000, #FFFFFF);
+
+.postbookmark-icon-delete:hover {
+	color: #0A8ED0 !important;
 }
 
 .scrool {
@@ -17,6 +18,10 @@
 .bookmark_form
 {
 	padding: 0px 5px 0px 0px;
+}
+.bookmark_desc
+{
+	width: 84% !important;
 }
 
 @media only screen and (max-width: 700px), only screen and (max-device-width: 700px)
