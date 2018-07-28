@@ -91,7 +91,7 @@ class listener implements EventSubscriberInterface
 
 	public function get_topic_data($event)
 	{
-		if ($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
+		if ($this->user->data['is_registered']&& !$this->user->data['is_bot'])
 		{
 			$topic_data = $event['topic_data'];
 			$posts_bookmark = array();
@@ -118,7 +118,7 @@ class listener implements EventSubscriberInterface
 
 	public function modify_post_row($event)
 	{
-		if ($this->user->data['is_registered'] && $this->config['allow_bookmarks'])
+		if ($this->user->data['is_registered'] && !$this->user->data['is_bot'])
 		{
 			$row = $event['row'];
 			$post_row = $event['post_row'];
