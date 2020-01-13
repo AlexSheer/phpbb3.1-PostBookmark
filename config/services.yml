@@ -17,7 +17,7 @@ services:
         arguments:
             - '%core.root_path%'
             - '%core.php_ext%'
-            -'@template'
+            - '@template'
             - '@dbal.conn'
             - '@user'
             - '@config'
