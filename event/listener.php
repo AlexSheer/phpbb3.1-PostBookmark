@@ -49,6 +49,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	 /** @var \controller\helper */
+    protected $helper;
+
 	/** @var \phpbb\extension\manager */
 	protected $phpbb_extension_manager;
 
@@ -65,6 +68,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\user $user,
 		\phpbb\config\config $config,
+		\phpbb\controller\helper $helper,
 		$phpbb_extension_manager,
 		$post_bookmark
 	)
@@ -75,6 +79,7 @@ class listener implements EventSubscriberInterface
 		$this->db = $db;
 		$this->user = $user;
 		$this->config = $config;
+		$this->helper   = $helper;
 		$this->phpbb_extension_manager = $phpbb_extension_manager;
 		$this->postbookmark_table = $post_bookmark;
 	}
@@ -126,13 +131,12 @@ class listener implements EventSubscriberInterface
 			$posts_bookmark = (isset($topic_data['posts_bookmarks'])) ? $topic_data['posts_bookmarks'] : array();
 			$post_id = $row['post_id'];
 			$topic_id = $topic_data['topic_id'];
-			$forum_id = $topic_data['forum_id'];
 
 			$mode = (in_array($row['post_id'], $posts_bookmark)) ? 'delete' : 'insert';
 			$post_row['L_BOOKMARK_POST'] = (in_array($row['post_id'], $posts_bookmark)) ? $this->user->lang['BOOKMARK_TOPIC_REMOVE'] : $this->user->lang['BOOKMARK_TOPIC'];
 			$post_row['BOOKMARK_DELETE'] = (in_array($row['post_id'], $posts_bookmark)) ? '-delete' : '';
-			$post_row['U_BOOKMARK_POST'] = append_sid("{$this->phpbb_root_path}postbookmark", "f=$forum_id&amp;t=$topic_id&amp;p=$post_id&amp;mode=$mode");
-			$post_row['U_BOOKMARK_LINK'] = append_sid("{$this->phpbb_root_path}postbookmark", "f=$forum_id&amp;t=$topic_id&amp;p=$post_id");
+			$post_row['U_BOOKMARK_POST'] = $this->helper->route('sheer_postbookmark_controller', array('t' => $topic_id, 'p' => $post_id, 'mode' => $mode));
+			$post_row['U_BOOKMARK_LINK'] = $this->helper->route('sheer_postbookmark_controller', array('t' => $topic_id, 'p' => $post_id));
 
 			$event['post_row'] = $post_row;
 		}
