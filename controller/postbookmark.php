@@ -42,6 +42,7 @@ class postbookmark
 		\phpbb\request\request_interface $request,
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\user $user,
+		\phpbb\controller\helper $phpbb_helper,
 		$phpbb_root_path,
 		$php_ext,
 		$post_bookmark,
@@ -52,6 +53,7 @@ class postbookmark
 		$this->request = $request;
 		$this->db = $db;
 		$this->user = $user;
+		$this->phpbb_helper = $phpbb_helper;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 		$this->postbookmark_table = $post_bookmark;
@@ -62,12 +64,11 @@ class postbookmark
 	{
 		$topic_id = $this->request->variable('t', 0);
 		$post_id = $this->request->variable('p', 0);
-		$forum_id = $this->request->variable('f', 0);
 		$mode = $this->request->variable('mode', '');
 
 		$book_submit = $this->request->variable('book', false);
 
-		$viewtopic_url = append_sid("{$this->phpbb_root_path}viewtopic." . $this->php_ext . "", "f=$forum_id&amp;t=$topic_id");
+		$viewtopic_url = append_sid("{$this->phpbb_root_path}viewtopic." . $this->php_ext . "", "t=$topic_id");
 		$return_link = '<br /><br />' . sprintf($this->user->lang['RETURN_TOPIC'], '<a href="' . $viewtopic_url . '">', '</a>');
 		$body = 'add_bookmark';
 
@@ -104,7 +105,7 @@ class postbookmark
 		}
 
 		$this->template->assign_vars(array(
-				'U_POST_ACTION' => append_sid("{$this->phpbb_root_path}postbookmark", "f=$forum_id&amp;t=$topic_id&amp;p=$post_id&amp;mode=$mode"),
+				'U_POST_ACTION' => append_sid("{$this->phpbb_root_path}postbookmark", "t=$topic_id&amp;p=$post_id&amp;mode=$mode"),
 			)
 		);
 

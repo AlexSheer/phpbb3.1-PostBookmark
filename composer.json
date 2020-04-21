@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "",
     "homepage": "http://www.phpbbguru.net/",
-    "version": "1.0.1",
-    "time": "2015-11-23",
+    "version": "1.1.0",
+    "time": "2020-02-02",
     "license": "GPL-2.0",
     "authors": [
         {
@@ -15,6 +15,11 @@
         {
             "name": "Igor Lavrov",
             "homepage": "https://github.com/lavigor",
+            "role": "Developer"
+        }
+        {
+            "name": "Mike Morrin",
+            "homepage": "https://github.com/v12mike",
             "role": "Developer"
         }
     ],

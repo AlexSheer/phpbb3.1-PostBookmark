@@ -4,36 +4,38 @@ services:
     sheer.postbookmark.controller:
         class: sheer\postbookmark\controller\postbookmark
         arguments:
-            - @template
-            - @request
-            - @dbal.conn
-            - @user
-            - %core.root_path%
-            - %core.php_ext%
-            - %tables.postbookmark%
-            - @sheer.postbookmark.helper
+            - '@template'
+            - '@request'
+            - '@dbal.conn'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%tables.postbookmark%'
+            - '@sheer.postbookmark.helper'
     sheer.postbookmark.listener:
         class: sheer\postbookmark\event\listener
         arguments:
-            - %core.root_path%
-            - %core.php_ext%
-            - @template
-            - @dbal.conn
-            - @user
-            - @config
-            - @ext.manager
-            - %tables.postbookmark%
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '@template'
+            - '@dbal.conn'
+            - '@user'
+            - '@config'
+            - '@controller.helper'
+            - '@ext.manager'
+            - '%tables.postbookmark%'
         tags:
             - { name: event.listener }
     sheer.postbookmark.helper:
         class: sheer\postbookmark\core\helper
         arguments:
-            - @config
-            - @dbal.conn
-            - @template
-            - @user
-            - @request
-            - @pagination
-            - %core.root_path%
-            - %core.php_ext%
-            - %core.table_prefix%
+            - '@config'
+            - '@dbal.conn'
+            - '@template'
+            - '@user'
+            - '@request'
+            - '@pagination'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%core.table_prefix%'

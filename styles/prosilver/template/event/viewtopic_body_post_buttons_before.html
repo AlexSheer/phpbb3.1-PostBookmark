@@ -1,6 +1,8 @@
 <!-- IF S_REGISTERED_USER and not S_IS_BOT -->
 						<li class="dropdown-container">
-							<a href="{postrow.U_BOOKMARK_POST}" title="{postrow.L_BOOKMARK_POST}" class="button dropdown-trigger icon-button postbookmark-icon{postrow.BOOKMARK_DELETE}" data-bookmark-url="{postrow.U_BOOKMARK_LINK}" data-bookmark-text="{L_BOOKMARK_TOPIC}" data-bookmark-remove-text="{L_BOOKMARK_TOPIC_REMOVE}"><span>{postrow.L_BOOKMARK_POST}</span></a>
+							<a href="{postrow.U_BOOKMARK_POST}" title="{postrow.L_BOOKMARK_POST}" class="button dropdown-trigger icon-button postbookmark-icon{postrow.BOOKMARK_DELETE}" data-bookmark-url="{postrow.U_BOOKMARK_LINK}" data-bookmark-text="{L_BOOKMARK_TOPIC}" data-bookmark-remove-text="{L_BOOKMARK_TOPIC_REMOVE}">
+							<i class="icon fa fa-bookmark fa-fw postbookmark-icon{postrow.BOOKMARK_DELETE}" aria-hidden="true"></i><span class="sr-only">{postrow.L_BOOKMARK_POST}</span>
+							</a>
 							<div class="dropdown hidden">
 								<div class="pointer"><div class="pointer-inner"></div></div>
 								<ul class="dropdown-contents">
@@ -15,3 +17,4 @@
 							</div>
 						</li>
 <!-- ENDIF -->
+
