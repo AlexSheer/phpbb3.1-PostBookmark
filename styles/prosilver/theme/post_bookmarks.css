@@ -1,10 +1,10 @@
 .postbookmark-icon {}
 
-.postbookmark-icon-delete {
+.postbookmark-icon-delete .icon{
 	color: #D31141 !important;
 }
 
-.postbookmark-icon-delete:hover {
+.postbookmark-icon-delete:hover .icon{
 	color: #0A8ED0 !important;
 }
 
