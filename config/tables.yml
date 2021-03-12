@@ -1,2 +1,2 @@
 parameters:
-    tables.postbookmark: %core.table_prefix%posts_bookmarks
+    tables.postbookmark: '%core.table_prefix%posts_bookmarks'
